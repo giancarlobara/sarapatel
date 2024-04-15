@@ -2,8 +2,8 @@
 
 ### Membros do grupo: ###
 
-* Flavimar
-* Giancarlo
-* Luca
-* Lucas Souza
+* Flavimar da Silva Almeida
+* Giancarlo Oliveira Silva
+* Luca Baccheschi Benetti
+* Lucas Oliveira de Souza
 
