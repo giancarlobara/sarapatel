@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{16548523-261F-4537-88AE-D828C4D33AAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDC.Chat.WebApp", "src\SDC.Chat.WebApp\SDC.Chat.WebApp.csproj", "{EF45076E-EF07-4043-AA8D-A3A4710ACC89}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF45076E-EF07-4043-AA8D-A3A4710ACC89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF45076E-EF07-4043-AA8D-A3A4710ACC89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF45076E-EF07-4043-AA8D-A3A4710ACC89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF45076E-EF07-4043-AA8D-A3A4710ACC89}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EF45076E-EF07-4043-AA8D-A3A4710ACC89} = {16548523-261F-4537-88AE-D828C4D33AAC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4B9BB72A-388F-48C0-A6BC-0B475D80F0E2}
+	EndGlobalSection
+EndGlobal
