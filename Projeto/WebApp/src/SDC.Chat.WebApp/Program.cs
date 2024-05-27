@@ -1,4 +1,8 @@
 using SDC.Chat.WebApp.Hubs;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using SDC.Chat.WebApp.Data;
+using SDC.Chat.WebApp.Areas.Identity.Data;
 
 namespace SDC.Chat.WebApp
 {
@@ -7,6 +11,11 @@ namespace SDC.Chat.WebApp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var connectionString = builder.Configuration.GetConnectionString("ChatDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ChatDbContextConnection' not found.");
+
+            builder.Services.AddDbContext<ChatDbContext>(options => options.UseSqlServer(connectionString));
+
+            builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ChatDbContext>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -35,6 +44,8 @@ namespace SDC.Chat.WebApp
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.MapHub<ChatHub>("/chatHub");
+
+            app.MapRazorPages();
 
             app.Run();
         }
