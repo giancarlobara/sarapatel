@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using SDC.Chat.WebApp.Areas.Identity.Data;
+using SDC.Chat.WebApp.Domain;
 
 namespace SDC.Chat.WebApp.Areas.Identity.Pages.Account
 {

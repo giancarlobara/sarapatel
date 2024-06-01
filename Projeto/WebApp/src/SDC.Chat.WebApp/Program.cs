@@ -2,7 +2,7 @@ using SDC.Chat.WebApp.Hubs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SDC.Chat.WebApp.Data;
-using SDC.Chat.WebApp.Areas.Identity.Data;
+using SDC.Chat.WebApp.Domain;
 
 namespace SDC.Chat.WebApp
 {

@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using SDC.Chat.WebApp.Areas.Identity.Data;
+using SDC.Chat.WebApp.Domain;
 
 namespace SDC.Chat.WebApp.Areas.Identity.Pages.Account
 {
@@ -125,7 +125,6 @@ namespace SDC.Chat.WebApp.Areas.Identity.Pages.Account
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var phoneCode = await _userManager.GenerateChangePhoneNumberTokenAsync(user, "+55062982811626");
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
