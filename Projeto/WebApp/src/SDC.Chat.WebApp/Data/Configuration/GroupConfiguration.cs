@@ -18,6 +18,9 @@ namespace SDC.Chat.WebApp.Data.Configuration
                 .WithOne(x => x.Group)
                 .HasForeignKey(x => x.GroupId);
 
+            builder.Property(x => x.Name)
+                .HasMaxLength(255);
+
             builder.ToTable("Group");
         }
     }

@@ -2,12 +2,19 @@
 {
     public class Group
     {
+        public Group()
+        {
+            Id = Guid.NewGuid();    
+        }
+
         public Guid Id { get; set; }
 
-        public IEnumerable<UserGroup> UserGroup { get; set; } = Enumerable.Empty<UserGroup>();
+        public ICollection<UserGroup> UserGroup { get; set; }
 
-        public IEnumerable<Message> Messages { get; set; } = Enumerable.Empty<Message>();
+        public ICollection<Message> Messages { get; set; }
 
         public bool IsPrivate { get; set; }
+
+        public string? Name { get; set; }
     }
 }

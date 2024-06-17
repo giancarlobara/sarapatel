@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SDC.Chat.WebApp.Data;
 using SDC.Chat.WebApp.Domain;
+using SDC.Chat.WebApp.Services;
 
 namespace SDC.Chat.WebApp
 {
@@ -15,7 +16,7 @@ namespace SDC.Chat.WebApp
 
             builder.Services.AddDbContext<ChatDbContext>(options => options.UseSqlServer(connectionString));
 
-            builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ChatDbContext>();
+            builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ChatDbContext>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -24,6 +25,8 @@ namespace SDC.Chat.WebApp
                 //options.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
                 //options.KeepAliveInterval = TimeSpan.FromSeconds(60);
             });
+
+            builder.Services.AddScoped<GroupService>();
 
             var app = builder.Build();
             if (!app.Environment.IsDevelopment())

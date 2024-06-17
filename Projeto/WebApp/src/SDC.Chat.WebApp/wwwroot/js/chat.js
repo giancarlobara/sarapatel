@@ -4,10 +4,10 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
 document.getElementById("sendButton").disabled = true;
 
-connection.on("ReceiveMessage", function (user, message) {
+connection.on("ReceiveMessage", function (user, message, data) {
     var li = document.createElement("li");
     document.getElementById("messagesList").appendChild(li);
-    li.textContent = `${user} says ${message}`;
+    li.textContent = `${user} disse ${message} em ${data}`;
 });
 
 connection.onclose(async () => {
@@ -31,7 +31,8 @@ connection.start().then(function () {
 
 document.getElementById("sendButton").addEventListener("click", function (event) {
     var message = document.getElementById("messageInput").value;
-    connection.invoke("SendMessage", message).catch(function (err) {
+    var userId = document.getElementById("userId").value;
+    connection.invoke("SendDirectMessage", message, userId).catch(function (err) {
         return console.error(err.toString());
     });
     event.preventDefault();

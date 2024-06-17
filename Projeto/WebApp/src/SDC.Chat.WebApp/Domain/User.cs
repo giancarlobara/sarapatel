@@ -5,8 +5,8 @@ namespace SDC.Chat.WebApp.Domain;
 // Add profile data for application users by adding properties to the User class
 public class User : IdentityUser<Guid>
 {
-    public IEnumerable<Message> Messages { get; set;} = Enumerable.Empty<Message>();
+    public ICollection<Message> Messages { get; set; }
 
-    public IEnumerable<UserGroup> UserGroup { get; set; } = Enumerable.Empty<UserGroup>();
+    public ICollection<UserGroup> UserGroup { get; set; }
 }
 
