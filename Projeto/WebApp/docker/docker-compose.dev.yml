@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  
+  sqlserver:
+    container_name: sdc-chat-sql-server
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    hostname: localhost
+    ports:
+        - 1433:1433
+    networks:
+        - sdc-chat-net
+    environment:
+        - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+        - MSSQL_PID=${MSSQL_PID}
+        - ACCEPT_EULA=Y
+
+networks:
+  sdc-chat-net:
+    driver: bridge

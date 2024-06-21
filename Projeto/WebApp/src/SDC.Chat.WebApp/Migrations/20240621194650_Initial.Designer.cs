@@ -12,7 +12,7 @@ using SDC.Chat.WebApp.Data;
 namespace SDC.Chat.WebApp.Migrations
 {
     [DbContext(typeof(ChatDbContext))]
-    [Migration("20240427231640_Initial")]
+    [Migration("20240621194650_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace SDC.Chat.WebApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -141,6 +141,10 @@ namespace SDC.Chat.WebApp.Migrations
                     b.Property<bool>("IsPrivate")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Name")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Group", (string)null);
@@ -158,6 +162,9 @@ namespace SDC.Chat.WebApp.Migrations
 
                     b.Property<Guid>("GroupId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Sent")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
