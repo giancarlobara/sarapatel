@@ -21,6 +21,9 @@ namespace SDC.Chat.WebApp.Data.Configuration
             builder.Property(x => x.Name)
                 .HasMaxLength(255);
 
+            builder.HasIndex(x => x.Name)
+                .IsUnique();
+
             builder.ToTable("Group");
         }
     }

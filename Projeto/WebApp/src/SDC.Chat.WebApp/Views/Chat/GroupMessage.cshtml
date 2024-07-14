@@ -1,4 +1,4 @@
-﻿@model DirectMessageViewModel;
+﻿@model GroupMessageViewModel;
 
 @{
     ViewData["Title"] = "Home Page";
@@ -31,8 +31,7 @@
     </div>
 </div>
 
-<input type="hidden" id="userId" value="@Model.UserId" />
 <input type="hidden" id="groupId" value="@Model.GroupId" />
 
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/chat_user.js"></script>
+<script src="~/js/chat_group.js"></script>

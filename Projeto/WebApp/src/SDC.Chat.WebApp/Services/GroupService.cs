@@ -15,12 +15,45 @@ namespace SDC.Chat.WebApp.Services
 
         public async Task<Group?> GetPrivateGroupWithMessagesAsync(Guid userId, Guid loggedUserId)
         {
-            return _chatDbContext.Group
+            return await _chatDbContext.Group
                 .Include(x => x.Messages)
                     .ThenInclude(x => x.User)
-                .FirstOrDefault(x => x.IsPrivate &&
+                .FirstOrDefaultAsync(x => x.IsPrivate &&
                                      x.UserGroup.Any(y => y.UserId == userId) &&
                                      x.UserGroup.Any(y => y.UserId == loggedUserId));
+        }
+
+        public async Task<Group?> GetByNameAsync(string groupName)
+        {
+            return await _chatDbContext.Group
+                .Include(x => x.Messages)
+                    .ThenInclude(x => x.User)
+                .Include(x => x.UserGroup)
+                .FirstOrDefaultAsync(x => x.Name != null && x.Name.ToLower() == groupName);
+        }
+
+        public async Task CreateAsync(Group group)
+        {
+            await _chatDbContext.Group.AddAsync(group);
+            await _chatDbContext.SaveChangesAsync();
+        }
+
+        public async Task AddUserToGroup(Group group, Guid loggedUserId)
+        {
+            group.UserGroup.Add(new UserGroup()
+            {
+                Joined = DateTime.UtcNow,
+                UserId = loggedUserId,
+            });
+
+            await _chatDbContext.SaveChangesAsync();
+        }
+
+        public async Task<Group?> GetGroupWithMessagesByIdAsync(Guid groupId)
+        {
+            return await _chatDbContext.Group
+                .Include(x => x.Messages)
+                .FirstOrDefaultAsync(x => x.Id == groupId);
         }
     }
 }

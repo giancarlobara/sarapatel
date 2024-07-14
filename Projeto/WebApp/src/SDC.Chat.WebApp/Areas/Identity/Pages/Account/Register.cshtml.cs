@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SDC.Chat.WebApp.Domain;
+using SDC.Chat.WebApp.DTOs;
+using SDC.Chat.WebApp.Services;
 
 namespace SDC.Chat.WebApp.Areas.Identity.Pages.Account
 {
@@ -29,21 +31,22 @@ namespace SDC.Chat.WebApp.Areas.Identity.Pages.Account
         private readonly IUserStore<User> _userStore;
         private readonly IUserEmailStore<User> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        //private readonly IEmailSender _emailSender;
+        private readonly QueueService _queueService;
 
         public RegisterModel(
             UserManager<User> userManager,
             IUserStore<User> userStore,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            QueueService queueService)
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
+            _queueService = queueService;
         }
 
         /// <summary>
@@ -132,8 +135,22 @@ namespace SDC.Chat.WebApp.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    var plainTextBytesUrl = Encoding.UTF8.GetBytes(callbackUrl);
+                    var base64Url = Convert.ToBase64String(plainTextBytesUrl);
+
+                    var plainTextBytesEmail = Encoding.UTF8.GetBytes(user.Email);
+                    var base64Email = Convert.ToBase64String(plainTextBytesEmail);
+
+                    var confirmEmailMessage = new ConfirmEmailDTO
+                    {
+                        Email = base64Email,
+                        Url = base64Url
+                    };
+
+                    await _queueService.SendAsync(confirmEmailMessage);
+
+                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

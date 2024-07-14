@@ -4,6 +4,7 @@ using SDC.Chat.WebApp.Data;
 using SDC.Chat.WebApp.Domain;
 using SDC.Chat.WebApp.Services;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace SDC.Chat.WebApp.Hubs
 {
@@ -11,70 +12,115 @@ namespace SDC.Chat.WebApp.Hubs
     {
         private readonly ChatDbContext _chatDbContext;
         private readonly GroupService _groupService;
+        private readonly SemaphoreDirectMessageService _semaphoreDirectMessageService;
+        private readonly SemaphoreGroupService _semaphoreGroupService;
 
-        public ChatHub(ChatDbContext chatDbContext, GroupService groupService)
+        public ChatHub(ChatDbContext chatDbContext, 
+            GroupService groupService,
+            SemaphoreDirectMessageService semaphoreDirectMessageService,
+            SemaphoreGroupService semaphoreGroupService)
         {
             _chatDbContext = chatDbContext;
             _groupService = groupService;
+            _semaphoreDirectMessageService = semaphoreDirectMessageService;
+            _semaphoreGroupService = semaphoreGroupService;
+        }
+
+        public override async Task OnConnectedAsync()
+        {
+            var httpContext = Context.GetHttpContext();
+            var groupId = httpContext.Request.Query["groupId"];
+
+            await Groups.AddToGroupAsync(Context.ConnectionId, groupId);
         }
 
         public async Task SendDirectMessage(string message, Guid userId)
         {
-            var loggedUserId = Guid.Parse(Context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
-            var group = await _groupService.GetPrivateGroupWithMessagesAsync(userId, loggedUserId);
-
-            var dateUtcNow = DateTime.UtcNow;
-
-            if (group == null)
+            try
             {
-                group = new Group()
+                await _semaphoreDirectMessageService.Semaphore.WaitAsync();
+
+                var loggedUserId = Guid.Parse(Context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
+                var group = await _groupService.GetPrivateGroupWithMessagesAsync(userId, loggedUserId);
+
+                var dateUtcNow = DateTime.UtcNow;
+
+                var messageEntity = new Message()
                 {
-                    IsPrivate = true
+                    Type = MessageType.Text,
+                    Content = message,
+                    UserId = loggedUserId,
+                    Sent = dateUtcNow,
+                    GroupId = group.Id
                 };
 
-                group.UserGroup = new List<UserGroup>()
-                {
-                    new UserGroup()
-                    {
-                        UserId = loggedUserId,
-                        GroupId = group.Id,
-                        Joined = dateUtcNow
-                    },
-                    new UserGroup()
-                    {
-                        UserId = userId,
-                        GroupId = group.Id,
-                        Joined = dateUtcNow
-                    }
-                };
+                _chatDbContext.Add(messageEntity);
 
-                group.Messages = new List<Message>();
+                await _chatDbContext.SaveChangesAsync();
 
-                _chatDbContext.Add(group);
+                await Groups.AddToGroupAsync(Context.ConnectionId, group.Id.ToString());
+
+                var data = $"{messageEntity.Sent.ToLocalTime().ToShortDateString()} {messageEntity.Sent.ToLocalTime().ToString("HH:mm")}";
+
+                await Clients.Group(group.Id.ToString()).SendAsync("ReceiveMessage", Context.User.Identity.Name, message, data);
             }
 
-            var messageEntity = new Message()
+            catch
             {
-                Type = MessageType.Text,
-                Content = message,
-                UserId = loggedUserId,
-                Sent = dateUtcNow,
-                GroupId = group.Id
-            };
+                throw;
+            }
 
-            _chatDbContext.Add(messageEntity);
-
-            await _chatDbContext.SaveChangesAsync();
-
-            await Clients.All.SendAsync("ReceiveMessage", Context.User.Identity.Name, message, dateUtcNow.ToLocalTime().ToString());
+            finally
+            {
+                _semaphoreDirectMessageService.Semaphore.Release();
+            }
         }
 
-        public async Task SendGroupMessage(string user, string message)
+        public async Task SendGroupMessage(string message, Guid groupId)
         {
-            var sala = "sala";
-            await Groups.AddToGroupAsync(Context.ConnectionId, sala);
+            try
+            {
+                await _semaphoreGroupService.Semaphore.WaitAsync();
 
-            await Clients.Group(sala).SendAsync("ReceiveMessage", user, message);
+                var loggedUserId = Guid.Parse(Context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
+                var group = await _groupService.GetGroupWithMessagesByIdAsync(groupId);
+
+                if (group == null)
+                {
+                    return;
+                }
+
+                var dateUtcNow = DateTime.UtcNow;
+
+                var messageEntity = new Message()
+                {
+                    Type = MessageType.Text,
+                    Content = message,
+                    UserId = loggedUserId,
+                    Sent = DateTime.UtcNow,
+                    GroupId = group.Id
+                };
+
+                _chatDbContext.Add(messageEntity);
+
+                await _chatDbContext.SaveChangesAsync();
+
+                await Groups.AddToGroupAsync(Context.ConnectionId, groupId.ToString());
+
+                var data = $"{messageEntity.Sent.ToLocalTime().ToShortDateString()} {messageEntity.Sent.ToLocalTime().ToString("HH:mm")}";
+
+                await Clients.Group(groupId.ToString()).SendAsync("ReceiveMessage", Context.User.Identity.Name, message, data);
+            }
+
+            catch
+            {
+                throw;
+            }
+
+            finally
+            {
+                _semaphoreGroupService.Semaphore.Release();
+            }
         }
     }
 }

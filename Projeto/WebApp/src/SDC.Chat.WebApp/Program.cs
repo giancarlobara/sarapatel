@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SDC.Chat.WebApp.Data;
 using SDC.Chat.WebApp.Domain;
 using SDC.Chat.WebApp.Services;
+using SDC.Chat.WebApp.Configurations;
 
 namespace SDC.Chat.WebApp
 {
@@ -18,6 +19,17 @@ namespace SDC.Chat.WebApp
 
             builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ChatDbContext>();
 
+            builder.Services.Configure<IdentityOptions>(options =>
+            {
+                // Default Password settings.
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+            });
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
@@ -27,6 +39,11 @@ namespace SDC.Chat.WebApp
             });
 
             builder.Services.AddScoped<GroupService>();
+            builder.Services.AddSingleton<SemaphoreDirectMessageService>();
+            builder.Services.AddSingleton<SemaphoreGroupService>();
+
+            builder.Services.Configure<SqsConfiguration>(builder.Configuration.GetSection("SqsConfiguration"));
+            builder.Services.AddSingleton<QueueService>();
 
             var app = builder.Build();
             if (!app.Environment.IsDevelopment())

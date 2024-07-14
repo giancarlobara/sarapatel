@@ -5,5 +5,7 @@
         public Guid UserId { get; set; }
 
         public List<MessageViewModel> Messages { get; set; }
+
+        public Guid GroupId { get; set; }
     }
 }

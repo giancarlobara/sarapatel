@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <input type="text" id="emailInput" class="w-100" />
+        </div>
+        <div class="col-6">
+            <button id="chatUser" type="button" class="btn btn-lg btn-primary">Acessar chat usuário</button>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-6">
+            <input type="text" id="salaInput" class="w-100" />
+        </div>
+        <div class="col-6">
+            <button id="chatSala" type="button" class="btn btn-lg btn-primary">Acessar chat sala</button>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script>
+    $("#chatSala").on("click", function () {
+        var sala = $("#salaInput").val();
+
+        if(!sala) {
+            return;
+        }
+
+        var url = '@Url.Action("GroupMessage", "Chat", new { room = "" })';
+        var urlWithParam = url + '?room=' + sala;
+        window.location.href = urlWithParam;
+    });
+    
+    $("#chatUser").on("click", function () {
+        var userEmail = $("#emailInput").val();
+
+        if(!userEmail) {
+            return;
+        }
+
+        var url = '@Url.Action("DirectMessage", "Chat", new { userEmail = "" })'
+        var urlWithParam = url + '?userEmail=' + userEmail;
+        window.location.href = urlWithParam;
+    });
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
