@@ -1,0 +1,14 @@
+# Arquivos temporários
+*~
+
+# Arquivos de log
+*.log
+
+# Diretórios específicos
+node_modules/
+.vscode/
+.idea
+build/
+
+# Arquivo de ambiente
+.env

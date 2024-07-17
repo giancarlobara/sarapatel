@@ -1,0 +1,19 @@
+services:
+  worker:
+    build: .
+    restart: on-failure
+    environment:
+      - QUEUE_URL=${QUEUE_URL}
+      - QUEUE_REGION=${QUEUE_REGION}
+      - QUEUE_ACCESS_KEY=${QUEUE_ACCESS_KEY}
+      - QUEUE_SECRET_KEY=${QUEUE_SECRET_KEY}
+
+      - MAIL_HOST=${MAIL_HOST}
+      - MAIL_PORT=${MAIL_PORT}
+      - MAIL_USER=${MAIL_USER}
+      - MAIL_PASS=${MAIL_PASS}
+      - MAIL_FROM=${MAIL_FROM}
+    ports:
+      - 3000:3000
+
+

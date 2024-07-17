@@ -1,0 +1,30 @@
+{
+  "name": "message-worker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "nodemon src/index.ts",
+    "compile": "tsc",
+    "start": "node build/src/index.js",
+    "deploy": "node src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.614.0",
+    "dotenv": "^16.4.5",
+    "nodemailer": "^6.9.14",
+    "sqs-consumer": "^11.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "@types/nodemailer": "^6.4.15",
+    "nodemon": "^3.1.4",
+    "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  }
+}
