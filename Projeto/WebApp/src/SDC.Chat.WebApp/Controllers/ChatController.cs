@@ -68,7 +68,7 @@ namespace SDC.Chat.WebApp.Controllers
             {
                 messages = group.Messages.OrderBy(x => x.Sent).Select(x => new MessageViewModel()
                 {
-                    Date = $"{x.Sent.ToLocalTime().ToShortDateString()} {x.Sent.ToLocalTime().ToString("HH:mm")}",
+                    Date = $"{x.Sent.AddHours(-3).ToShortDateString()} {x.Sent.AddHours(-3).ToString("HH:mm")}",
                     IsFromLoggedUser = x.UserId == loggedUserId,
                     Username = x.User.UserName,
                     Content = x.Content
@@ -124,7 +124,7 @@ namespace SDC.Chat.WebApp.Controllers
             {
                 messages = group.Messages.OrderBy(x => x.Sent).Select(x => new MessageViewModel()
                 {
-                    Date = $"{x.Sent.ToLocalTime().ToShortDateString()} {x.Sent.ToLocalTime().ToString("HH:mm")}",
+                    Date = $"{x.Sent.AddHours(-3).ToShortDateString()} {x.Sent.AddHours(-3).ToString("HH:mm")}",
                     IsFromLoggedUser = x.UserId == loggedUserId,
                     Username = x.User.UserName,
                     Content = x.Content

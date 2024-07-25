@@ -60,7 +60,7 @@ namespace SDC.Chat.WebApp.Hubs
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, group.Id.ToString());
 
-                var data = $"{messageEntity.Sent.ToLocalTime().ToShortDateString()} {messageEntity.Sent.ToLocalTime().ToString("HH:mm")}";
+                var data = $"{messageEntity.Sent.AddHours(-3).ToShortDateString()} {messageEntity.Sent.AddHours(-3).ToString("HH:mm")}";
 
                 await Clients.Group(group.Id.ToString()).SendAsync("ReceiveMessage", Context.User.Identity.Name, message, data);
             }
@@ -107,7 +107,7 @@ namespace SDC.Chat.WebApp.Hubs
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, groupId.ToString());
 
-                var data = $"{messageEntity.Sent.ToLocalTime().ToShortDateString()} {messageEntity.Sent.ToLocalTime().ToString("HH:mm")}";
+                var data = $"{messageEntity.Sent.AddHours(-3).ToShortDateString()} {messageEntity.Sent.AddHours(-3).ToString("HH:mm")}";
 
                 await Clients.Group(groupId.ToString()).SendAsync("ReceiveMessage", Context.User.Identity.Name, message, data);
             }
