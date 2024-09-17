@@ -1,7 +1,7 @@
 Ator Coordenador de curso
 
  Quem é
- O Coordenador de Curso é um ator do SOCC, ele possui acesso a funcionalidades que lhe permitem executar tarefas como a organização da oferta de disciplinas e a gestão da matriz do seu curso.
+ - O Coordenador de Curso é um ator do SOCC, ele possui acesso a funcionalidades que lhe permitem executar tarefas como a organização da oferta de disciplinas e a gestão da matriz do seu curso.
 
 O que faz no sistema
 - Gera a matriz de oferta do curso 
