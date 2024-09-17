@@ -27,10 +27,9 @@ Desejos
 
 Histórias de usuários (HU)
 
-Identificador
-Nome
-HU01
-Como Coordenador de Curso, eu quero logar no sistema para ter acesso aos recursos e funcionalidades relacionadas ao Processo de Oferta de Componentes Curriculares (POCC) de turmas.
+- Identificador - Nome
+
+HU01 - Como Coordenador de Curso, eu quero logar no sistema para ter acesso aos recursos e funcionalidades relacionadas ao Processo de Oferta de Componentes Curriculares (POCC) de turmas.
 HU02
 Como Coordenador de Curso, eu quero que o sistema me permita aprovar Planos de Ensino, inserir sugestões de correção em seções do Plano de Ensino e submetê-las ao Docente para correção.
 HU03
