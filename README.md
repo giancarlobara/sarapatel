@@ -13,3 +13,10 @@
 | Descrição | x | Sim | Alfanumérico |  | Exibido no modal da ação de visualizar  | |
 | Editar | | | Botão | | Exibido no modal da ação de visualizar | Visível apenas se o usuário for Vice-diretor |
 * Tipos: Inteiro, Numérico, Alfanumérico, Data, Hora, Botão, Seleção única, Seleção múltipla, Lista
+## **Fluxo Principal**
+### FP01 - < Listar Os Núcleos de Conhecimento >
+
+| ID | Passo | Fluxo | Regra de Negócio | Tela |
+|:--------------|:----------------|:--------------|:----------------|:--------------|
+| 1 | O Usuário seleciona a opção de "Núcleos de Conhecimento"|  | | [Tela Inicial](https://github.com/FabricaDeSoftwareINF/SOCC/blob/dev/documentacao/requisitos/caso-de-uso-visualizar-home.md)  |
+| 2 | O sistema mostra uma sidebar com opções e uma lista com os núcleos de conhecimento existentes, exibindo informações como nome, lista de docentes, facilitador e lista de disciplinas associadas |  | | [Tela de Núcleos de Conhecimento](#tela-de-núcleos-de-conhecimento) |
