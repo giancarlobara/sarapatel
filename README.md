@@ -18,5 +18,5 @@
 
 | ID | Passo | Fluxo | Regra de Negócio | Tela |
 |:--------------|:----------------|:--------------|:----------------|:--------------|
-| 1 | O Usuário seleciona a opção de "Núcleos de Conhecimento"|  | | [Tela Inicial](https://github.com/FabricaDeSoftwareINF/SOCC/blob/dev/documentacao/requisitos/caso-de-uso-visualizar-home.md)  |
-| 2 | O sistema mostra uma sidebar com opções e uma lista com os núcleos de conhecimento existentes, exibindo informações como nome, lista de docentes, facilitador e lista de disciplinas associadas |  | | [Tela de Núcleos de Conhecimento](#tela-de-núcleos-de-conhecimento) |
+| 1 | O Usuário seleciona a opção de "Núcleos de Conhecimento"| O usuário, a partir da Tela Inicial, clica na opção para acessar a lista de Núcleos de Conhecimento. | | [Tela Inicial](https://github.com/FabricaDeSoftwareINF/SOCC/blob/dev/documentacao/requisitos/caso-de-uso-visualizar-home.md)  |
+| 2 | O sistema mostra uma sidebar com opções e uma lista com os núcleos de conhecimento existentes | A lista exibe informações como nome do núcleo, lista de docentes associados, facilitador e lista de disciplinas associadas. | | [Tela de Núcleos de Conhecimento](#tela-de-núcleos-de-conhecimento) |
